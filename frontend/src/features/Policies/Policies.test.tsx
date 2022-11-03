@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Policies } from './Policies';
 import { server } from 'mocks/server';
 import { rest } from 'msw';
@@ -26,5 +26,16 @@ describe('Features/Policies', () => {
 
     render(<Policies />);
     await waitFor(() => screen.getByText(/error/i));
+  });
+
+  test('should filter policies by user first name', async () => {
+    render(<Policies />);
+
+    await waitFor(() => {
+      const input = screen.getByPlaceholderText('Search policies...');
+      fireEvent.change(input, { target: { value: 'Cyrillus' } });
+      expect(screen.getAllByText('Cyrillus', { exact: false }).length).toBe(1);
+      expect(screen.queryAllByText('Brandy', { exact: false }).length).toBe(0);
+    });
   });
 });
