@@ -21,9 +21,17 @@ export const policyMockResponse = [
   },
 ];
 
-export const policyMockHandler = rest.get(
-  'http://localhost:4000/policies',
+export const policyMockHandler = (searchValue?: string) => rest.get(
+  'http://localhost:4000/policies?search='+searchValue,
   (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(policyMockResponse));
+    console.log(req)
+    const searchInput = search.toLowerCase()
+    const searchResult  = policyMockResponse.filter(policy => {
+
+      return policy.customer.firstName.toLowerCase().include(searchResult) ||  
+        policy.customer.lastName.toLowerCase().include(searchResult) || 
+        policy.provider.toLowerCase().include(searchResult) 
+    })
+    return res(ctx.status(200), ctx.json(search ? searchResult : policyMockResponse));
   }
 );
