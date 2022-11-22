@@ -1,12 +1,18 @@
-import { Policy } from 'features/Policies';
+import { Policy } from "features/Policies";
+import { useEffect } from "react";
 
-import { TableRow } from './TableRow';
+import { TableRow } from "./TableRow";
 
 interface TableProps {
   policies?: Policy[];
 }
 
 export const Table = ({ policies }: TableProps) => {
+  useEffect(() => {
+    return () => {
+      console.log("Table was destroyed!");
+    };
+  });
   if (!policies) return <p>No results</p>;
 
   return (
