@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.get('/policies', async (req, res) => {
   const { search } = req.query;
+  const totalPolicies = await prisma.policy.count();
+  const policiesPerPage = 10;
 
   const or: Prisma.PolicyWhereInput = search
     ? {
@@ -51,9 +53,27 @@ app.get('/policies', async (req, res) => {
         },
       },
     },
+    take: 10,
+    skip: (+(req.query.page || 1) - 1) * policiesPerPage,
   });
 
-  res.json(policies);
+  res.json({
+    data: policies,
+    totalPages: totalPolicies / policiesPerPage,
+    policiesPerPage,
+  });
+});
+
+app.patch('/customers/:customerId', async (req, res) => {
+  const { customerId } = req.params;
+
+  // we want to do additional validation, does email exist, is it the owner etc.
+  await prisma.customer.update({
+    where: { id: customerId },
+    data: { email: req.body.email },
+  });
+
+  res.status(201).send('successful');
 });
 
 app.get('/', (req, res) => {

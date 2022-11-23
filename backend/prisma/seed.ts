@@ -8,11 +8,33 @@ const userData: Prisma.CustomerCreateInput[] = [
     lastName: 'Biddlecombe',
     dateOfBirth: '1978-12-03T06:33:17Z',
     policies: {
-      create: {
-        provider: 'BARMER',
-        insuranceType: 'HEALTH',
-        status: 'PENDING',
-        startDate: '2017-04-26T05:32:06Z',
+      createMany: {
+        data: [
+          {
+            provider: 'BARMER',
+            insuranceType: 'HEALTH',
+            status: 'PENDING',
+            startDate: '2017-04-26T05:32:06Z',
+          },
+          {
+            provider: 'BARMER',
+            insuranceType: 'HEALTH',
+            status: 'PENDING',
+            startDate: '2017-04-26T05:32:06Z',
+          },
+          {
+            provider: 'BARMER',
+            insuranceType: 'HEALTH',
+            status: 'PENDING',
+            startDate: '2017-04-26T05:32:06Z',
+          },
+          {
+            provider: 'BARMER',
+            insuranceType: 'HEALTH',
+            status: 'PENDING',
+            startDate: '2017-04-26T05:32:06Z',
+          },
+        ],
       },
     },
   },

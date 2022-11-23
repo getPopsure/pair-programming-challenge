@@ -24,11 +24,12 @@ enum InsuranceType {
 }
 
 model Customer {
-  id            String      @id @default(uuid()) @db.Uuid
-  firstName     String      @db.VarChar(255)
-  lastName      String      @db.VarChar(255)
-  dateOfBirth   DateTime
-  policies      Policy[]
+  id          String   @id @default(uuid()) @db.Uuid
+  firstName   String   @db.VarChar(255)
+  lastName    String   @db.VarChar(255)
+  dateOfBirth DateTime
+  policies    Policy[]
+  email       String?
 }
 
 model Policy {

@@ -1,4 +1,4 @@
-type InsuranceType = 'HEALTH' | 'LIABILITY' | 'HOUSEHOLD';
+export type InsuranceType = 'HEALTH' | 'LIABILITY' | 'HOUSEHOLD';
 
 export type PolicyStatus = 'ACTIVE' | 'PENDING' | 'CANCELLED' | 'DROPPED_OUT';
 
@@ -19,4 +19,11 @@ export interface Policy {
   provider: Provider;
   startDate: Date;
   status: PolicyStatus;
+}
+
+export interface PaginatedPolicies {
+  data: Policy[];
+  totalPages: number;
+  policiesPerPage: number;
+  currPage: number;
 }
