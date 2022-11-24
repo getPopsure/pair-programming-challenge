@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react';
 
-import { Policy } from './Policies.model';
+import { Policy, PolicyStatus } from './Policies.model';
 
 import { Header } from 'components/Header';
 import { Table } from 'components/Table';
+import { SearchInput } from 'components/SearchInput';
+import { stringify } from 'query-string';
+import { Filters } from 'components/Filters';
+
+// SearchInput
+// - hook for filters
+// - tests to the component and tests to the feature, hook
 
 export const Policies = () => {
   const [error, setError] = useState<string | undefined>();
   const [policies, setPolicies] = useState<Policy[] | undefined>();
+  const [search, setSearch] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<PolicyStatus | ''>('');
 
   useEffect(() => {
     const fetchPolicies = async () => {
-      await fetch('http://localhost:4000/policies')
+      const urlParams = stringify({ search, status: statusFilter });
+      await fetch(`http://localhost:4000/policies?${urlParams}`)
         .then((r) => r.json())
         .then((data) => setPolicies(data))
         .catch((e) => setError(e.message));
@@ -24,7 +34,7 @@ export const Policies = () => {
       setPolicies([]);
       setError('');
     };
-  }, []);
+  }, [search, statusFilter]);
 
   if (!error && !policies) return <p>Loading...</p>;
 
@@ -33,7 +43,14 @@ export const Policies = () => {
 
   return (
     <div>
-      <Header>Policies</Header>
+      <Header title="Policies">
+        <SearchInput
+          aria-label="Search for policy name"
+          onValueChange={setSearch}
+          placeholder="Search policy"
+        />
+      </Header>
+      <Filters onStatusChange={setStatusFilter} value={statusFilter} />
       <Table policies={policies} />
     </div>
   );
