@@ -2,32 +2,39 @@ import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { PrismaClient, Prisma } from '@prisma/client';
 
+type PolicyStatus = 'ACTIVE' | 'PENDING' | 'CANCELLED' | 'DROPPED_OUT';
+type InsuranceType = 'LIABILITY' | 'HOUSEHOLD' | 'HEALTH';
+
 export const prisma = new PrismaClient();
 
 export async function getPolicies(req: Request, res: Response) {
-  const { search } = req.query;
+  const { insuranceType, search, status } = req.query;
 
   const or: Prisma.PolicyWhereInput = search
     ? {
-      OR: [
-        { provider: { contains: search as string, mode: 'insensitive' } },
-        {
-          customer: {
-            firstName: { contains: search as string, mode: 'insensitive' },
+        OR: [
+          { provider: { contains: search as string, mode: 'insensitive' } },
+          {
+            customer: {
+              firstName: { contains: search as string, mode: 'insensitive' },
+            },
           },
-        },
-        {
-          customer: {
-            lastName: { contains: search as string, mode: 'insensitive' },
+          {
+            customer: {
+              lastName: { contains: search as string, mode: 'insensitive' },
+            },
           },
-        },
-      ],
-    }
+        ],
+      }
     : {};
 
   const policies = await prisma.policy.findMany({
     where: {
       ...or,
+      ...(status ? { status: { in: status as PolicyStatus } } : {}),
+      ...(insuranceType
+        ? { insuranceType: { in: insuranceType as InsuranceType } }
+        : {}),
     },
     select: {
       id: true,
