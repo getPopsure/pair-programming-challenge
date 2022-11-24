@@ -5,6 +5,13 @@
 import '@testing-library/jest-dom';
 import { server } from 'mocks/server';
 
+jest.mock('use-debounce', () => {
+  return {
+    useDebounce: (value: unknown) => value,
+    useDebouncedCallback: (value: unknown) => value,
+  };
+});
+
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

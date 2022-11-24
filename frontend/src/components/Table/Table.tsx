@@ -44,9 +44,17 @@ export const Table = ({ policies }: TableProps) => {
                 </tr>
               </thead>
               <tbody>
-                {policies.map((policy: Policy) => (
-                  <TableRow key={policy.id} row={policy} />
-                ))}
+                {policies.length ? (
+                  policies.map((policy: Policy) => (
+                    <TableRow key={policy.id} row={policy} />
+                  ))
+                ) : (
+                  <tr>
+                    <td className="p-6 text-center" colSpan={4}>
+                      No results found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

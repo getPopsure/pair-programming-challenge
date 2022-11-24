@@ -7,7 +7,7 @@ interface TableRowProps {
 }
 
 export const TableRow = ({ row }: TableRowProps) => (
-  <tr className="border-b">
+  <tr className="border-b" data-testid="table-row">
     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
       {row.customer.firstName} {row.customer.lastName}
     </td>
