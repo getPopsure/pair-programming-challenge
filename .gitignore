@@ -2,3 +2,8 @@
 .DS_Store
 .idea
 node_modules/
+/frontend/.yarn/cache/
+/frontend/.yarnrc.yml
+/frontend/.yarn/
+/backend/.yarn/
+/backend/.yarnrc.yml

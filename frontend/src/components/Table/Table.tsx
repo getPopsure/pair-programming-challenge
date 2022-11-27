@@ -1,13 +1,18 @@
-import { Policy } from 'features/Policies';
+import React from 'react';
 
+import { Policy } from 'features/Policies';
 import { TableRow } from './TableRow';
 
+const TableRowCached = React.memo(TableRow);
+
 interface TableProps {
-  policies?: Policy[];
+  policies: Policy[];
+  isLoading: boolean;
 }
 
-export const Table = ({ policies }: TableProps) => {
-  if (!policies) return <p>No results</p>;
+export const Table = ({ policies, isLoading }: TableProps) => {
+  if (isLoading) return <p>Loading...</p>;
+  if (policies.length === 0) return <p>No results</p>;
 
   return (
     <div className="flex flex-col">
@@ -45,7 +50,7 @@ export const Table = ({ policies }: TableProps) => {
               </thead>
               <tbody>
                 {policies.map((policy: Policy) => (
-                  <TableRow key={policy.id} row={policy} />
+                  <TableRowCached key={policy.id} row={policy} />
                 ))}
               </tbody>
             </table>
