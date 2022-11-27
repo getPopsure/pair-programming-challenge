@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { Filter } from './Filter';
+import { Filters } from './Filters';
 
 describe('Components/Filter', () => {
   describe('Normal state', () => {
     it('Should load correctly', () => {
-      render(<Filter onChange={()=>{}} />);
+      render(<Filters onNameChange={()=>{}} />);
       screen.getByLabelText('Customer name filter');
     });
   });
