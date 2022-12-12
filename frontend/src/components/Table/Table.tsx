@@ -19,7 +19,7 @@ export const Table = ({ policies, isLoading }: TableProps) => {
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-hidden rounded-lg shadow-sm">
-            <table className="min-w-full">
+            <table className="min-w-full" data-testid="policies_list_table">
               <thead className="border-b bg-gray-100">
                 <tr>
                   <th

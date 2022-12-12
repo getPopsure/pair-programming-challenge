@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Policy, PolicyStatus } from './Policies.model';
 
@@ -6,14 +6,12 @@ import { Header } from 'components/Header';
 import { Table } from 'components/Table';
 import { Filters } from 'components/Filter';
 
-export const Policies = () => {
-  const [error, setError] = useState<string | undefined>();
+const usePolicies = ({nameFilter, policyFilter}: {nameFilter: string, policyFilter: PolicyStatus | undefined}): {policies: Policy[]; policyStatuses: PolicyStatus[]; loading: boolean; error: string;} => {
   const [policies, setPolicies] = useState<Policy[]>([]);
   const [policiesFiltered, setPoliciesFiltered] = useState<Policy[]>([]);
   const [policyStatuses, setPolicyStatuses] = useState<PolicyStatus[]>([]);
-  const [nameFilter, setNameFilter] = useState<string>("");
-  const [policyFilter, setPolicyFilter] = useState<PolicyStatus | "">("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchPolicies = async (nameFilter: string) => {
@@ -31,8 +29,8 @@ export const Policies = () => {
           }
           return acc;
         }, []));
-      } catch (e) {
-        setError(e.message);
+      } catch (e: unknown) {
+        setError((e as Error).message);
       } finally {
         setLoading(false);
       }
@@ -57,14 +55,27 @@ export const Policies = () => {
     };
   }, [policies, policyFilter]);
 
+  return {policies: policiesFiltered, policyStatuses, loading, error};
+}
+
+export const Policies = () => {
+  const [nameFilter, setNameFilter] = useState<string>("");
+  const [policyFilter, setPolicyFilter] = useState<PolicyStatus | undefined>();
+  const {policies, policyStatuses, loading, error} = usePolicies({nameFilter, policyFilter});
+
+  const handleReset = useCallback(() => {
+    setNameFilter("");
+    setPolicyFilter(undefined);
+  }, []);
+
   if (error)
     return <p className="text-red-500">Error loading policies: {error}</p>;
 
   return (
     <div>
       <Header>Policies</Header>
-      <Filters onNameChange={value => setNameFilter(value)} onPolicyStatusChange={value => setPolicyFilter(value)} policyStatuses={policyStatuses} selectedPolicyStatus={policyFilter}/>
-      <Table policies={policiesFiltered} isLoading={loading} />
+      <Filters onReset={handleReset} onNameChange={value => setNameFilter(value)} onPolicyStatusChange={value => setPolicyFilter(value)} policyStatuses={policyStatuses} selectedPolicyStatus={policyFilter} nameFilterValue={nameFilter}/>
+      <Table policies={policies} isLoading={loading} />
     </div>
   );
 };
