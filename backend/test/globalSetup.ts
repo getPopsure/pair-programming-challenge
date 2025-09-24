@@ -4,5 +4,9 @@ import { promisify } from 'util';
 const exec = promisify(exec0);
 
 export default async function globalSetup(): Promise<void> {
+  require('dotenv').config()
+  process.env.NODE_ENV = 'test';
+  process.env.DATABASE_URL = process.env.TEST_DATABASE_URL;
+
   await exec('npx prisma migrate reset --force --skip-generate --skip-seed');
 }
