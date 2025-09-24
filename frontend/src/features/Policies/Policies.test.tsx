@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { Policies } from './Policies';
-import { server } from 'mocks/server';
+import { server } from '@/mocks/server';
 import { rest } from 'msw';
 import { validCustomer } from './Policies.mocks';
 
@@ -19,7 +19,7 @@ describe('Features/Policies', () => {
 
   test('should correctly handle errors', async () => {
     server.use(
-      rest.get('http://localhost:4000/policies', (req, res, ctx) => {
+      rest.get('http://localhost:4000/policies', (_req, res, ctx) => {
         return res(ctx.status(500));
       })
     );

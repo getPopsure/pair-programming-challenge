@@ -1,13 +1,13 @@
-FROM node:16.9.1
+FROM node:24-bullseye
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn
-
 COPY . .
+
+RUN yarn install
 
 EXPOSE 3000
 
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "dev" ]
