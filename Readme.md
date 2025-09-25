@@ -52,6 +52,21 @@ After following the [Getting started](#Getting-started) guide, the backend shoul
 
 Feel free to update or add more endpoints to accommodate or improve your solution.
 
+## Running the tests
+
+To run the backend tests, you can use the following commands:
+
+```bash
+docker compose exec backend yarn test
+docker compose exec backend yarn test:e2e
+```
+
+to run the frontend tests, you can use the following command:
+
+```bash
+docker compose exec frontend yarn test
+```
+
 ## Data structure
 
 ### Policy

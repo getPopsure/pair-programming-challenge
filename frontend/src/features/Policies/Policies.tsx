@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Policy } from './Policies.model';
 
-import { Header } from 'components/Header';
-import { Table } from 'components/Table';
+import { Header } from '@/components/Header';
+import { Table } from '@/components/Table';
 
 export const Policies = () => {
   const [error, setError] = useState<string | undefined>();

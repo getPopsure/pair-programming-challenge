@@ -18,7 +18,7 @@ services:
       - .env
     build:
         context: ./backend/
-    command: sh -c "yarn prisma generate && yarn prisma migrate dev && yarn prisma db seed && yarn start"
+    command: sh -c "yarn prisma generate && yarn prisma migrate dev && yarn start"
     volumes:
       - ./backend/:/app
       - /app/node_modules

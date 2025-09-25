@@ -1,4 +1,4 @@
-import { Policy } from 'features/Policies';
+import { Policy } from '@/features/Policies';
 
 import { Badge } from '../Badge';
 
